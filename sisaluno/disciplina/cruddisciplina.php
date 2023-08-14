@@ -6,26 +6,21 @@ if (isset($_POST['cadastrar'])) {
     $ch = $_POST["ch"] ?? '';
     $semestre = $_POST["semestre"] ?? '';
     $idprofessor = $_POST["idprofessor"] ?? '';
-    $nota1 = $_POST['nota1'];
-    $nota2 = $_POST['nota2'] ;
-    $media = $_POST['media'];
+    $nota1 = $_POST['nota1'] ?? '';
+    $nota2 = $_POST['nota2'] ?? '';
+    $media = null; 
 
-    
     if (empty($nomedisciplina) || empty($ch) || empty($semestre) || empty($idprofessor) || empty($nota1) || empty($nota2)) {
         echo "Todos os campos são obrigatórios.";
         exit;
     }
 
-  
     if ($nota1 !== '' && $nota2 !== '') {
         $media = ($nota1 + $nota2) / 2;
-    } else {
-        $media = null;
     }
 
     $sql = "INSERT INTO disciplina (nomedisciplina, ch, semestre, idprofessor, nota1, nota2, media) VALUES (:nomedisciplina, :ch, :semestre, :idprofessor, :nota1, :nota2, :media)";
     $stmt = $conexao->prepare($sql);
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->bindParam(':nomedisciplina', $nomedisciplina, PDO::PARAM_STR);
     $stmt->bindParam(':ch', $ch, PDO::PARAM_INT);
     $stmt->bindParam(':semestre', $semestre, PDO::PARAM_STR);
@@ -40,7 +35,6 @@ if (isset($_POST['cadastrar'])) {
         echo "Erro ao cadastrar a disciplina.";
     }
 }
-
 
 ## alterar
 if (isset($_POST['update'])) {
